@@ -25,6 +25,14 @@ app.get('/notes', (req, res) => {
     // sends the notes.html file to the /notes route
     res.sendFile(path.join(__dirname, './public/notes.html'));
 });
+
+app.get('/api/notes', (req, res) => {
+    let results = notes;
+    res.json(results);
+});
+
+
+// be sure to keep catch all route as last route
 app.get('*', (req, res) => {
     // sends the index.html file when an undefined route/url is given
     res.sendFile(path.join(__dirname, './public/index.html'));
