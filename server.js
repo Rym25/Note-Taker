@@ -27,10 +27,15 @@ app.get('/notes', (req, res) => {
 });
 
 app.get('/api/notes', (req, res) => {
-    let results = notes;
-    res.json(results);
+    res.json(notes);
 });
 
+app.post('/api/notes', (req, res) => {
+    // add validation for recieved data
+    // add function to give new data an id
+    console.log(req.body);
+    res.json(req.body);
+});
 
 // be sure to keep catch all route as last route
 app.get('*', (req, res) => {
@@ -42,5 +47,5 @@ app.listen(PORT, () => {
     console.log(`API server now on port 3001!`);
 });
 
-
+// http://localhost:3001/api/notes
 
