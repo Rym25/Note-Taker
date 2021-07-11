@@ -17,6 +17,22 @@ app.use(express.urlencoded({extended: true}));
 // parses incoming JSON data
 app.use(express.json());
 
+// SECTION FOR FUNCTIONS START
+
+// Function to validate the given data
+function validateNotes(note) {
+    // this function will return false when a defined quality of the data is not present
+    if (!note.title || typeof note.title !== 'string') {
+        return false;
+    }
+    if(!note.text || typeof note.text !== 'string') {
+        return false;
+    }
+    return true;
+} 
+
+// SECTION FOR FUNCTIONS END
+
 app.get('/', (req, res) => {
     // sends the index.html file to the / route
     res.sendFile(path.join(__dirname, './public/index.html'));
@@ -33,8 +49,13 @@ app.get('/api/notes', (req, res) => {
 app.post('/api/notes', (req, res) => {
     // add validation for recieved data
     // add function to give new data an id
+    // add ability to write new data to db.json
+    if(!validateNotes(req.body)) {
+        res.status(400).send('The note is not properly formatted');
+    } else {
     console.log(req.body);
     res.json(req.body);
+    }
 });
 
 // be sure to keep catch all route as last route
