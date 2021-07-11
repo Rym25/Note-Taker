@@ -1,12 +1,1 @@
-[
-  {
-    "title": "First Note",
-    "text": "A test to see that things are indexing properly",
-    "id": "0"
-  },
-  {
-    "title": "Steps for Deleting notes",
-    "text": "Create a delete route in the server:\nThe delete will splice the designated element from the array.\nremap the ids in the db.json data to accomodate the missing id.\nrewrite the json array with the updated ids to db.json.",
-    "id": "1"
-  }
-]
+[]
