@@ -4,6 +4,8 @@ const express = require('express');
 const notes = require('./db/db.json');
 // requires the path library
 const path = require('path');
+// requires the fs library
+const fs = require('fs');
 
 // creates a conditional value for PORT that will either match the PORT used by the environment of the process that is running the server? or port 3001
 const PORT = process.env.PORT || 3001;
@@ -31,6 +33,15 @@ function validateNotes(note) {
     return true;
 } 
 
+function createNote(note, notesArr) {
+    // console logs the passed in note
+    console.log(note);
+    // adds the passed in note to the passed in notesArr
+    notesArr.push(note);
+    // writes the newly altered notesArr to the db.json file
+    fs.writeFileSync(path.join(__dirname,'./db/db.json'),JSON.stringify(notesArr, null, 2));
+}
+
 // SECTION FOR FUNCTIONS END
 
 app.get('/', (req, res) => {
@@ -43,19 +54,20 @@ app.get('/notes', (req, res) => {
 });
 
 app.get('/api/notes', (req, res) => {
+    // sends the json data in db.json to /api/notes
     res.json(notes);
 });
 
 app.post('/api/notes', (req, res) => {
-    // add function to give new data an id
     // add ability to write new data to db.json
+    // adds an id to the post data based on the length of the db.json data
     req.body.id = notes.length.toString();
-
+    // checks if the post data is formatted correctly if not will send a 400 error
     if(!validateNotes(req.body)) {
         res.status(400).send('The note is not properly formatted');
     } else {
-    console.log(req.body);
-    res.json(req.body);
+    createNote(req.body,notes);
+    res.json(notes);
     }
 });
 

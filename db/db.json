@@ -1,6 +1,16 @@
 [
-    {
-        "title":"Test Title",
-        "text":"Test text"
-    }
+  {
+    "title": "Test Title",
+    "text": "Test text"
+  },
+  {
+    "title": "First POST Note",
+    "text": "More testing for the POST",
+    "id": "1"
+  },
+  {
+    "title": "First POST Note",
+    "text": "More testing for the POST",
+    "id": "2"
+  }
 ]
