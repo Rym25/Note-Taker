@@ -31,5 +31,7 @@ THEN I am presented with empty fields to enter a new note title and the note’s
 ```
 
 The GitHub Repository for this project can be found here: https://github.com/Rym25/Note-Taker
+
 The Application is hosted using heroku and can be found here: https://peaceful-reef-11603.herokuapp.com/
+
 A video of how to use the application can be found here: https://drive.google.com/file/d/1VehrnXFZJX-ySI8skJhvJ7fHplhCuYqH/view
