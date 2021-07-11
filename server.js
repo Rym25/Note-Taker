@@ -16,7 +16,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     let results = notes;
     res.json(results);
-})
+});
 
 app.listen(PORT, () => {
     console.log(`API server now on port 3001!`);
