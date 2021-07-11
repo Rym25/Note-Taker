@@ -47,9 +47,10 @@ app.get('/api/notes', (req, res) => {
 });
 
 app.post('/api/notes', (req, res) => {
-    // add validation for recieved data
     // add function to give new data an id
     // add ability to write new data to db.json
+    req.body.id = notes.length.toString();
+
     if(!validateNotes(req.body)) {
         res.status(400).send('The note is not properly formatted');
     } else {
