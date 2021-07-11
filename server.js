@@ -15,7 +15,7 @@ const app = express();
 // Instructs the server to make files in provided path static resources
 app.use(express.static('public'));
 // parses incoming string or array data
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 // parses incoming JSON data
 app.use(express.json());
 
@@ -27,11 +27,11 @@ function validateNotes(note) {
     if (!note.title || typeof note.title !== 'string') {
         return false;
     }
-    if(!note.text || typeof note.text !== 'string') {
+    if (!note.text || typeof note.text !== 'string') {
         return false;
     }
     return true;
-} 
+}
 
 function createNote(note, notesArr) {
     // console logs the passed in note
@@ -39,7 +39,23 @@ function createNote(note, notesArr) {
     // adds the passed in note to the passed in notesArr
     notesArr.push(note);
     // writes the newly altered notesArr to the db.json file
-    fs.writeFileSync(path.join(__dirname,'./db/db.json'),JSON.stringify(notesArr, null, 2));
+    fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(notesArr, null, 2));
+}
+
+// function for deleting data from db.json
+function deleteNote(id, notesArr) {
+    // if the id passed in is a string the id will be converted to an interger number
+    if(typeof id === 'string') {
+        id = parseInt(id);
+    }
+    // since our ids are equal to the index can splice the notes array starting at the idth index
+    notesArr.splice(id, 1);
+    // have to reassign id values for the rest of the data
+    for (let i = 0; i < notesArr.length; i++) {
+        notesArr[i].id = `${i}`;
+    }
+    // writes the new array without deleted element and updated ids
+    fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(notesArr, null, 2));
 }
 
 // SECTION FOR FUNCTIONS END
@@ -59,17 +75,22 @@ app.get('/api/notes', (req, res) => {
 });
 
 app.post('/api/notes', (req, res) => {
-    // add ability to write new data to db.json
     // adds an id to the post data based on the length of the db.json data
     req.body.id = notes.length.toString();
     // checks if the post data is formatted correctly if not will send a 400 error
-    if(!validateNotes(req.body)) {
+    if (!validateNotes(req.body)) {
         res.status(400).send('The note is not properly formatted');
     } else {
-    createNote(req.body,notes);
-    res.json(notes);
+        // writes post data to db.json the sends new json data as a response
+        createNote(req.body, notes);
+        res.json(notes);
     }
 });
+
+app.delete('/api/notes/:id', (req, res) => {
+    deleteNote(req.params.id, notes);
+    res.json(notes);
+})
 
 // be sure to keep catch all route as last route
 app.get('*', (req, res) => {
